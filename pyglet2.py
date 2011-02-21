@@ -1,8 +1,10 @@
 
 import pyglet
 
-from OpenGL.GL import *
-from OpenGL.GLU import *
+from pyglet.gl import *
+
+#from OpenGL.GL import *
+#from OpenGL.GLU import *
 
 import numpy
 
@@ -35,7 +37,8 @@ def initGL(width, height):
     
     return True
 
-window = pyglet.window.Window(800,600, caption="Terrain")
+config = pyglet.gl.Config(double_buffer=True)
+window = pyglet.window.Window(800,600, caption="Terrain", config=config)
 
 window.context.set_current()
 
@@ -52,10 +55,18 @@ label = pyglet.text.Label('Hail',
     
 @window.event
 def on_draw():
+
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(90.0, window.width/float(window.height), 1.0, 100.0)
+    glMatrixMode(GL_MODELVIEW)
+
     window.clear()
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
+    
+#    glTranslate(1.5, 0.0, -6.0)
     
     gluLookAt(0.0, 25.0, -45.0, 0.0, 0.0, 0.0, 0, 1, 0)
     
@@ -67,6 +78,7 @@ def on_draw():
             
         glEnd()
     glFlush()
+#    glRotatef(
     
     window.flip()
 #    label.draw()
