@@ -9,6 +9,8 @@ import numpy
 SIZE = 64
 TWO_PI = 2.0 * 3.1415926535
 
+g_mesh = None
+
 def initGL(width, height):
     global g_mesh
     
@@ -16,8 +18,10 @@ def initGL(width, height):
     glClearDepth(1.0)
     glDepthFunc(GL_LEQUAL)
     glEnable(GL_DEPTH_TEST)
+    glShadeModel(GL_SMOOTH)
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 
-    glColor(1.0, 1.0, 1.0, 1.0)
+#    glColor(1.0, 1.0, 1.0, 1.0)
     # wire frame mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
     
@@ -48,8 +52,6 @@ label = pyglet.text.Label('Hail',
     
 @window.event
 def on_draw():
-    global g_mesh
-    
     window.clear()
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
